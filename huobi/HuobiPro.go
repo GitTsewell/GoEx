@@ -57,6 +57,21 @@ type HuoBiProSymbol struct {
 	Symbol          string
 }
 
+type HuobiMatchResult struct {
+	ID                string    `json:"id"`
+	OrderID           string    `json:"order-id"`
+	MatchID           string    `json:"match-id"`
+	TradeID           string  `json:"trade-id"`
+	Symbol            string `json:"symbol"`
+	Type              string `json:"type"`
+	Source            string `json:"source"`
+	Price             float64 `json:"price"`
+	FilledAmount      float64 `json:"filled-amount"`
+	FilledFees        float64 `json:"filled-fees"`
+	CreatedAt         int64  `json:"created-at"`
+	Role              string `json:"role"`
+}
+
 func NewHuobiWithConfig(config *APIConfig) *HuoBiPro {
 	hbpro := new(HuoBiPro)
 	if config.Endpoint == "" {
@@ -707,6 +722,42 @@ func (hbpro *HuoBiPro) GetCurrenciesPrecision() ([]HuoBiProSymbol, error) {
 		sym.Symbol = _sym["symbol"].(string)
 		Symbols = append(Symbols, sym)
 	}
-	//fmt.Println(Symbols)
 	return Symbols, nil
+}
+
+func (hbpro *HuoBiPro) GetMatchResults(orderId string) ([]HuobiMatchResult, error) {
+	path := "/v1/order/orders/" + orderId + "/matchresults"
+	params := url.Values{}
+	hbpro.buildPostForm("GET", path, &params)
+	respmap, err := HttpGet(hbpro.httpClient, hbpro.baseUrl+path+"?"+params.Encode())
+	if err != nil {
+		return nil, err
+	}
+
+	if respmap["status"].(string) != "ok" {
+		return nil, errors.New(respmap["err-code"].(string))
+	}
+
+	datamap := respmap["data"].([]interface{})
+	var results []HuobiMatchResult
+	for _,v :=range datamap {
+		_res := v.(map[string]interface{})
+		res := HuobiMatchResult{
+			ID:fmt.Sprint(ToInt(_res["id"])),
+			OrderID:fmt.Sprint(ToInt(_res["order-id"])),
+			MatchID:fmt.Sprint(ToInt(_res["match-id"])),
+			TradeID:fmt.Sprint(ToInt(_res["trade-id"])),
+			Symbol:_res["symbol"].(string),
+			Type:_res["type"].(string),
+			Source:_res["source"].(string),
+			Price:ToFloat64(_res["price"]),
+			FilledAmount:ToFloat64(_res["filled-amount"]),
+			FilledFees:ToFloat64(_res["filled-fees"]),
+			CreatedAt:ToInt64(_res["created-at"]),
+			Role:_res["role"].(string),
+		}
+		results = append(results,res)
+	}
+
+	return results, nil
 }
