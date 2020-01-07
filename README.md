@@ -126,7 +126,3 @@ func main() {
 5. 请不要使用deprecated关键字标注的方法和字段，后面版本可能随时删除的
 6. 交流QQ群：574829125
 -----------------
-
-### 欢迎为作者付一碗面钱
-
-<img src="https://raw.githubusercontent.com/nntaoli-project/GoEx/dev/wx_pay.JPG" width="250" alt="一碗面钱">&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/nntaoli-project/GoEx/dev/IMG_1177.jpg" width="250" alt="一碗面钱">
