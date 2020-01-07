@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 )
 
 type OKExV3FutureWs struct {

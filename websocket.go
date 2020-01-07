@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gorilla/websocket"
-	. "github.com/nntaoli-project/GoEx/internal/logger"
+	. "github.com/GitTsewell/GoEx/internal/logger"
 	"net/http"
 	"net/http/httputil"
 	"net/url"

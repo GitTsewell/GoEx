@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 	"net/http"
 	"net/url"
 	"strings"

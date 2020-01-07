@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/nntaoli-project/GoEx/internal/logger"
+	"github.com/GitTsewell/GoEx/internal/logger"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"io/ioutil"

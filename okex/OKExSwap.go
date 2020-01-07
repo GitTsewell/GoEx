@@ -3,7 +3,7 @@ package okex
 import (
 	"fmt"
 	"github.com/google/uuid"
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 	"github.com/pkg/errors"
 	"strings"
 	"time"

@@ -2,7 +2,7 @@ package goex
 
 import (
 	"encoding/json"
-	. "github.com/nntaoli-project/GoEx/internal/logger"
+	. "github.com/GitTsewell/GoEx/internal/logger"
 	"testing"
 	"time"
 )

@@ -1,7 +1,7 @@
 package coinbene
 
 import (
-	goex "github.com/nntaoli-project/GoEx"
+	goex "github.com/GitTsewell/GoEx"
 	"net"
 	"net/http"
 	"net/url"

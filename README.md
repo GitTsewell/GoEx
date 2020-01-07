@@ -7,7 +7,7 @@
 
 GoEx项目是为了统一并标准化各个数字资产交易平台的接口而设计，同一个策略可以随时切换到任意一个交易平台，而不需要更改任何代码。
 
-[English](https://github.com/nntaoli-project/GoEx/blob/dev/README_en.md)
+[English](https://github.com/GitTsewell/GoEx/blob/dev/README_en.md)
 
 ### GoEx已支持交易所 `22+`
 
@@ -37,12 +37,12 @@ GoEx项目是为了统一并标准化各个数字资产交易平台的接口而�
 
 ### 安装GoEx库  
 
-``` go get github.com/nntaoli-project/GoEx ```
+``` go get github.com/GitTsewell/GoEx ```
 
 >建议go mod 管理依赖
 ``` 
 require (
-          github.com/nntaoli-project/GoEx v1.0.4
+          github.com/GitTsewell/GoEx v1.0.4
 )
 ```
 
@@ -53,8 +53,8 @@ require (
    package main
    
    import (
-   	"github.com/nntaoli-project/GoEx"
-   	"github.com/nntaoli-project/GoEx/builder"
+   	"github.com/GitTsewell/GoEx"
+   	"github.com/GitTsewell/GoEx/builder"
    	"log"
    	"time"
    )
@@ -87,9 +87,9 @@ require (
 
 ```golang
 import (
-	"github.com/nntaoli-project/GoEx"
-	"github.com/nntaoli-project/GoEx/huobi"
-	//"github.com/nntaoli-project/GoEx/okcoin"
+	"github.com/GitTsewell/GoEx"
+	"github.com/GitTsewell/GoEx/huobi"
+	//"github.com/GitTsewell/GoEx/okcoin"
 	"log"
 )
 

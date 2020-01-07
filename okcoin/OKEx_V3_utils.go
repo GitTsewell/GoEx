@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 )
 
 type IContractIDProvider interface {

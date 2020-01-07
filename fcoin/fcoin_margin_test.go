@@ -1,7 +1,7 @@
 package fcoin
 
 import (
-	"github.com/nntaoli-project/GoEx"
+	"github.com/GitTsewell/GoEx"
 	"testing"
 )
 

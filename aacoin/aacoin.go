@@ -1,7 +1,7 @@
 package aacoin
 
 import (
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 	"net/http"
 	"net/url"
 

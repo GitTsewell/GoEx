@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	. "github.com/nntaoli-project/GoEx"
+	. "github.com/GitTsewell/GoEx"
 )
 
 /**

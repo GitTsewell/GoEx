@@ -1,8 +1,8 @@
 package okex
 
 import (
-	"github.com/nntaoli-project/GoEx"
-	"github.com/nntaoli-project/GoEx/internal/logger"
+	"github.com/GitTsewell/GoEx"
+	"github.com/GitTsewell/GoEx/internal/logger"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"

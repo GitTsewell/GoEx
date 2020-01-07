@@ -3,7 +3,7 @@ package goex
 import (
 	"errors"
 	"fmt"
-	"github.com/nntaoli-project/GoEx/internal/logger"
+	"github.com/GitTsewell/GoEx/internal/logger"
 	"reflect"
 	"time"
 )

@@ -1,7 +1,7 @@
 package binance
 
 import (
-	"github.com/nntaoli-project/GoEx"
+	"github.com/GitTsewell/GoEx"
 	"net"
 	"net/http"
 	"net/url"
