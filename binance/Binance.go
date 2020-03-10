@@ -82,6 +82,19 @@ type ExchangeInfo struct {
 	Symbols         []TradeSymbol `json:"symbols"`
 }
 
+type Symbols struct {
+	Symbols []SymbolInfo `json:"symbols"`
+}
+
+type SymbolInfo struct {
+	Symbol             string `json:"symbol"`
+	Status             string `json:"status"`
+	BaseAsset          string `json:"baseAsset"`
+	BaseAssetPrecision int    `json:"baseAssetPrecision"`
+	QuoteAsset         string `json:"quoteAsset"`
+	QuotePrecision     int    `json:"quotePrecision"`
+}
+
 type Binance struct {
 	accessKey    string
 	secretKey    string
@@ -550,6 +563,21 @@ func (bn *Binance) getTradeSymbols() ([]TradeSymbol, error) {
 		return nil, err
 	}
 	info := new(ExchangeInfo)
+	err = json.Unmarshal(resp, info)
+	if err != nil {
+		return nil, err
+	}
+
+	return info.Symbols, nil
+}
+
+func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
+	// /api/v3/exchangeInfo
+	resp, err := HttpGet5(bn.httpClient, bn.apiV3+"exchangeInfo", nil)
+	if err != nil {
+		return nil, err
+	}
+	info := new(Symbols)
 	err = json.Unmarshal(resp, info)
 	if err != nil {
 		return nil, err
