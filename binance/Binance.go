@@ -571,6 +571,20 @@ func (bn *Binance) getTradeSymbols() ([]TradeSymbol, error) {
 	return info.Symbols, nil
 }
 
+func (bn *Binance) GetListenKey() {
+	path := bn.apiV3 + "userDataStream"
+	params := url.Values{}
+
+	//bn.buildParamsSigned(&params)
+
+	resp, err := HttpPostForm2(bn.httpClient, path, params,
+		map[string]string{"X-MBX-APIKEY": bn.accessKey})
+
+	fmt.Printf("%s\n", resp)
+
+	fmt.Println(err)
+}
+
 func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
 	// /api/v3/exchangeInfo
 	resp, err := HttpGet5(bn.httpClient, bn.apiV3+"exchangeInfo", nil)
