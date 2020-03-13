@@ -2,8 +2,8 @@ package okex
 
 import (
 	"fmt"
-	"github.com/go-openapi/errors"
 	. "github.com/GitTsewell/GoEx"
+	"github.com/go-openapi/errors"
 	"sort"
 	"strings"
 	"time"
@@ -345,6 +345,33 @@ func (ok *OKExSpot) GetTicker(currency CurrencyPair) (*Ticker, error) {
 		Buy:  response.BestBid,
 		Vol:  response.BaseVolume24h,
 		Date: uint64(time.Duration(date.UnixNano() / int64(time.Millisecond)))}, nil
+}
+
+func (ok *OKExSpot) GetSymbols() (*Symbols, error) {
+	urlPath := "/api/spot/v3/instruments"
+
+	resp := Symbols{}
+	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+
+}
+
+func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (*OrderFills, error) {
+	///api/spot/v3/fills?order_id=23212&instrument_id=btc-usdt&limit=2&after=2&before=4
+	urlPath := fmt.Sprintf("/api/spot/v3/fills?order_id=%s&instrument_id=%s", orderId, currency.AdaptUsdToUsdt().ToSymbol("-"))
+
+	resp := OrderFills{}
+	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
 
 func (ok *OKExSpot) GetDepth(size int, currency CurrencyPair) (*Depth, error) {

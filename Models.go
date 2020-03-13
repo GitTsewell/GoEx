@@ -72,6 +72,31 @@ type Ticker struct {
 	Date uint64       `json:"date"` // 单位:ms
 }
 
+type Symbols []struct {
+	BaseCurrency  string `json:"base_currency"`
+	InstrumentID  string `json:"instrument_id"`
+	MinSize       string `json:"min_size"`
+	QuoteCurrency string `json:"quote_currency"`
+	SizeIncrement string `json:"size_increment"`
+	TickSize      string `json:"tick_size"`
+}
+
+type OrderFills []struct {
+	CreatedAt    time.Time `json:"created_at"`
+	Currency     string    `json:"currency"`
+	ExecType     string    `json:"exec_type"`
+	Fee          string    `json:"fee"`
+	InstrumentID string    `json:"instrument_id"`
+	LedgerID     string    `json:"ledger_id"`
+	Liquidity    string    `json:"liquidity"`
+	OrderID      string    `json:"order_id"`
+	Price        string    `json:"price"`
+	ProductID    string    `json:"product_id"`
+	Side         string    `json:"side"`
+	Size         string    `json:"size"`
+	Timestamp    time.Time `json:"timestamp"`
+}
+
 type FutureTicker struct {
 	*Ticker
 	ContractType string  `json:"omitempty"`
