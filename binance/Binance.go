@@ -584,7 +584,15 @@ func (bn *Binance) GetListenKey() (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("%s", resp), nil
+	var info struct {
+		ListenKey string `json:"listenKey"`
+	}
+	err = json.Unmarshal(resp, &info)
+	if err != nil {
+		return "", err
+	}
+
+	return info.ListenKey, nil
 }
 
 func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
