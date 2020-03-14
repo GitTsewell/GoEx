@@ -82,7 +82,7 @@ type ExchangeInfo struct {
 	Symbols         []TradeSymbol `json:"symbols"`
 }
 
-type Symbols struct {
+type Symbol struct {
 	Symbols []SymbolInfo `json:"symbols"`
 }
 
@@ -593,7 +593,7 @@ func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	info := new(Symbols)
+	info := new(Symbol)
 	err = json.Unmarshal(resp, info)
 	if err != nil {
 		return nil, err
