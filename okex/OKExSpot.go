@@ -315,6 +315,18 @@ func (ok *OKExSpot) GetOrderHistorys(currency CurrencyPair, currentPage, pageSiz
 	panic("unsupported")
 }
 
+func (ok *OKExSpot) GetOrderHistorysV1(currency CurrencyPair, currentPage, pageSize int) (Orders, error) {
+	urlPath := fmt.Sprintf("/api/spot/v3/orders?instrument_id=%s&state=6", currency.AdaptUsdToUsdt().ToSymbol("-"))
+
+	resp := Orders{}
+	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
 func (ok *OKExSpot) GetExchangeName() string {
 	return OKEX
 }
@@ -360,10 +372,12 @@ func (ok *OKExSpot) GetSymbols() (*Symbols, error) {
 
 }
 
-func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (*OrderFills, error) {
+func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (OrderFills, error) {
 	///api/spot/v3/fills?order_id=23212&instrument_id=btc-usdt&limit=2&after=2&before=4
-	urlPath := fmt.Sprintf("/api/spot/v3/fills?order_id=%s&instrument_id=%s", orderId, currency.AdaptUsdToUsdt().ToSymbol("-"))
+	//urlPath := fmt.Sprintf("/api/spot/v3/fills?order_id=%s&instrument_id=%s", orderId, currency.AdaptUsdToUsdt().ToSymbol("-"))
+	urlPath := "/api/spot/v3/fills?instrument_id=trx-usdt"
 
+	fmt.Println(urlPath)
 	resp := OrderFills{}
 	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
 
@@ -371,7 +385,7 @@ func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (*OrderFills
 		return nil, err
 	}
 
-	return &resp, nil
+	return resp, nil
 }
 
 func (ok *OKExSpot) GetDepth(size int, currency CurrencyPair) (*Depth, error) {

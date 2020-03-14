@@ -81,6 +81,28 @@ type Symbols []struct {
 	TickSize      string `json:"tick_size"`
 }
 
+type Orders []struct {
+	ClientOid      string    `json:"client_oid"`
+	CreatedAt      time.Time `json:"created_at"`
+	FilledNotional string    `json:"filled_notional"`
+	FilledSize     string    `json:"filled_size"`
+	Funds          string    `json:"funds"`
+	InstrumentID   string    `json:"instrument_id"`
+	Notional       string    `json:"notional"`
+	OrderID        string    `json:"order_id"`
+	OrderType      string    `json:"order_type"`
+	Price          string    `json:"price"`
+	PriceAvg       string    `json:"price_avg"`
+	ProductID      string    `json:"product_id"`
+	Side           string    `json:"side"`
+	Size           string    `json:"size"`
+	Status         string    `json:"status,omitempty"`
+	State          string    `json:"state"`
+	Timestamp      time.Time `json:"timestamp"`
+	Type           string    `json:"type"`
+	Staus          string    `json:"staus,omitempty"`
+}
+
 type OrderFills []struct {
 	CreatedAt    time.Time `json:"created_at"`
 	Currency     string    `json:"currency"`
