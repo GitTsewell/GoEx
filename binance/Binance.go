@@ -575,8 +575,6 @@ func (bn *Binance) GetListenKey() (string, error) {
 	path := bn.apiV3 + "userDataStream"
 	params := url.Values{}
 
-	//bn.buildParamsSigned(&params)
-
 	resp, err := HttpPostForm2(bn.httpClient, path, params,
 		map[string]string{"X-MBX-APIKEY": bn.accessKey})
 
@@ -593,6 +591,23 @@ func (bn *Binance) GetListenKey() (string, error) {
 	}
 
 	return info.ListenKey, nil
+}
+
+func (bn *Binance) PutListenKey(listenKey string) (bool, error) {
+	path := bn.apiV3 + "userDataStream"
+	params := url.Values{}
+	params.Set("listenKey", listenKey)
+
+	headers := map[string]string{
+		"X-MBX-APIKEY": bn.accessKey,
+		"Content-Type": "application/x-www-form-urlencoded"}
+
+	_, err := NewHttpRequest(bn.httpClient, "PUT", path, params.Encode(), headers)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
