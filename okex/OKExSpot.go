@@ -5,6 +5,7 @@ import (
 	. "github.com/GitTsewell/GoEx"
 	"github.com/go-openapi/errors"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -220,31 +221,36 @@ func (ok *OKExSpot) CancelOrder(orderId string, currency CurrencyPair) (bool, er
 }
 
 type OrderResponse struct {
-	InstrumentId   string  `json:"instrument_id"`
-	ClientOid      string  `json:"client_oid"`
-	OrderId        string  `json:"order_id"`
-	Price          float64 `json:"price,string"`
-	Size           float64 `json:"size,string"`
-	Notional       string  `json:"notional"`
-	Side           string  `json:"side"`
-	Type           string  `json:"type"`
-	FilledSize     string  `json:"filled_size"`
-	FilledNotional string  `json:"filled_notional"`
-	PriceAvg       string  `json:"price_avg"`
-	State          int     `json:"state,string"`
-	OrderType      int     `json:"order_type,string"`
-	Timestamp      string  `json:"timestamp"`
+	ClientOid      string    `json:"client_oid"`
+	CreatedAt      time.Time `json:"created_at"`
+	FilledNotional string    `json:"filled_notional"`
+	FilledSize     string    `json:"filled_size"`
+	Funds          string    `json:"funds"`
+	InstrumentID   string    `json:"instrument_id"`
+	Notional       string    `json:"notional"`
+	OrderId        string    `json:"order_id"`
+	OrderType      string    `json:"order_type"`
+	Price          string    `json:"price"`
+	PriceAvg       string    `json:"price_avg"`
+	ProductID      string    `json:"product_id"`
+	Side           string    `json:"side"`
+	Size           string    `json:"size"`
+	State          string    `json:"state"`
+	Status         string    `json:"status"`
+	Timestamp      string    `json:"timestamp"`
+	Type           string    `json:"type"`
 }
 
 func (ok *OKExSpot) adaptOrder(response OrderResponse) *Order {
+	state, _ := strconv.Atoi(response.State)
 	ordInfo := &Order{
 		Cid:        response.ClientOid,
 		OrderID2:   response.OrderId,
-		Price:      response.Price,
-		Amount:     response.Size,
+		Price:      ToFloat64(response.Price),
+		Amount:     ToFloat64(response.Size),
 		AvgPrice:   ToFloat64(response.PriceAvg),
 		DealAmount: ToFloat64(response.FilledSize),
-		Status:     ok.adaptOrderState(response.State)}
+		Status:     ok.adaptOrderState(state)}
 
 	switch response.Side {
 	case "buy":
