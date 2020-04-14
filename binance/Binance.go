@@ -542,7 +542,57 @@ func (bn *Binance) GetTrades(currencyPair CurrencyPair, since int64) ([]Trade, e
 }
 
 func (bn *Binance) GetOrderHistorys(currency CurrencyPair, currentPage, pageSize int) ([]Order, error) {
-	panic("not implements")
+	params := url.Values{}
+	params.Set("symbol", currency.ToSymbol(""))
+
+	err := bn.buildParamsSigned(&params)
+	if err != nil {
+		return nil, err
+	}
+	path := bn.apiV3 + "allOrders?" + params.Encode()
+
+	respmap, err := HttpGet3(bn.httpClient, path, map[string]string{"X-MBX-APIKEY": bn.accessKey})
+	if err != nil {
+		return nil, err
+	}
+
+	orders := make([]Order, 0)
+	for _, v := range respmap {
+		ord := v.(map[string]interface{})
+		side := ord["side"].(string)
+		orderSide := SELL
+		if side == "BUY" {
+			orderSide = BUY
+		}
+
+		var status TradeStatus
+		switch ord["status"] {
+		case "NEW":
+			status = ORDER_UNFINISH
+		case "FILLED":
+			status = ORDER_FINISH
+		case "PARTIALLY_FILLED":
+			status = ORDER_PART_FINISH
+		case "CANCELED":
+			status = ORDER_CANCEL
+		case "PENDING_CANCEL":
+			status = ORDER_CANCEL_ING
+		case "REJECTED":
+			status = ORDER_REJECT
+		}
+
+		orders = append(orders, Order{
+			OrderID:   ToInt(ord["orderId"]),
+			OrderID2:  fmt.Sprint(ToInt(ord["orderId"])),
+			Currency:  currency,
+			Price:     ToFloat64(ord["price"]),
+			Amount:    ToFloat64(ord["origQty"]),
+			Side:      TradeSide(orderSide),
+			Status:    status,
+			OrderTime: ToInt(ord["time"])})
+	}
+
+	return orders, nil
 }
 
 func (ba *Binance) adaptCurrencyPair(pair CurrencyPair) CurrencyPair {
