@@ -321,8 +321,8 @@ func (ok *OKExSpot) GetOrderHistorys(currency CurrencyPair, currentPage, pageSiz
 	panic("unsupported")
 }
 
-func (ok *OKExSpot) GetOrderHistorysV1(currency CurrencyPair, currentPage, pageSize int) (Orders, error) {
-	urlPath := fmt.Sprintf("/api/spot/v3/orders?instrument_id=%s&state=6", currency.AdaptUsdToUsdt().ToSymbol("-"))
+func (ok *OKExSpot) GetOrderHistorysV1(currency CurrencyPair, state int) (Orders, error) {
+	urlPath := fmt.Sprintf("/api/spot/v3/orders?instrument_id=%s&state=%d", currency.AdaptUsdToUsdt().ToSymbol("-"), state)
 
 	resp := Orders{}
 	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
