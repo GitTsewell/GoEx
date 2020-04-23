@@ -104,6 +104,7 @@ type Orders []struct {
 }
 
 type OrderFills []struct {
+	TradeID      string    `json:"trade_id"`
 	CreatedAt    time.Time `json:"created_at"`
 	Currency     string    `json:"currency"`
 	ExecType     string    `json:"exec_type"`

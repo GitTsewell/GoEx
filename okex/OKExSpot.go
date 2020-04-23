@@ -379,19 +379,24 @@ func (ok *OKExSpot) GetSymbols() (*Symbols, error) {
 }
 
 func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (OrderFills, error) {
-	///api/spot/v3/fills?order_id=23212&instrument_id=btc-usdt&limit=2&after=2&before=4
-	//urlPath := fmt.Sprintf("/api/spot/v3/fills?order_id=%s&instrument_id=%s", orderId, currency.AdaptUsdToUsdt().ToSymbol("-"))
-	urlPath := "/api/spot/v3/fills?instrument_id=trx-usdt"
+	symbol := strings.ToLower(currency.CurrencyA.String()) + "-" + strings.ToLower(currency.CurrencyB.String())
+	urlPath := fmt.Sprintf("/api/spot/v3/fills?order_id=%s&instrument_id=%s", orderId, symbol)
 
-	fmt.Println(urlPath)
 	resp := OrderFills{}
 	err := ok.OKEx.DoRequest("GET", urlPath, "", &resp)
-
+	//此接口一笔成交会返回2条数据，一个以计价货币计算的，一个是以交易货币计算的
 	if err != nil {
 		return nil, err
 	}
-
-	return resp, nil
+	trades := make(map[string]int, len(resp)/2)
+	var rsp OrderFills
+	for _, v := range resp {
+		if trades[v.TradeID] == 0 {
+			trades[v.TradeID] = 1
+			rsp = append(rsp, v)
+		}
+	}
+	return rsp, nil
 }
 
 func (ok *OKExSpot) GetDepth(size int, currency CurrencyPair) (*Depth, error) {
