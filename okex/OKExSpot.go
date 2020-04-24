@@ -388,11 +388,9 @@ func (ok *OKExSpot) GetFills(orderId string, currency CurrencyPair) (OrderFills,
 	if err != nil {
 		return nil, err
 	}
-	trades := make(map[string]int, len(resp)/2)
 	var rsp OrderFills
 	for _, v := range resp {
-		if trades[v.TradeID] == 0 {
-			trades[v.TradeID] = 1
+		if v.Currency == currency.CurrencyA.Symbol {
 			rsp = append(rsp, v)
 		}
 	}

@@ -95,6 +95,22 @@ type SymbolInfo struct {
 	QuotePrecision     int    `json:"quotePrecision"`
 }
 
+type MyTrade struct {
+	Symbol          string `json:"symbol"`
+	ID              int    `json:"id"`
+	OrderID         int    `json:"orderId"`
+	OrderListID     int    `json:"orderListId"`
+	Price           string `json:"price"`
+	Qty             string `json:"qty"`
+	QuoteQty        string `json:"quoteQty"`
+	Commission      string `json:"commission"`
+	CommissionAsset string `json:"commissionAsset"`
+	Time            int64  `json:"time"`
+	IsBuyer         bool   `json:"isBuyer"`
+	IsMaker         bool   `json:"isMaker"`
+	IsBestMatch     bool   `json:"isBestMatch"`
+}
+
 type Binance struct {
 	accessKey    string
 	secretKey    string
@@ -673,6 +689,32 @@ func (bn *Binance) GetSymbols() ([]SymbolInfo, error) {
 	}
 
 	return info.Symbols, nil
+}
+
+// 账户成交历史
+func (bn *Binance) GetMyTrades(currency CurrencyPair) (interface{}, error) {
+	//symbol	STRING	YES
+	//startTime	LONG	NO
+	//endTime	LONG	NO
+	//fromId	LONG	NO	起始Trade id。 默认获取最新交易。
+	//limit	INT	NO	默认 500; 最大 1000.
+	//recvWindow	LONG	NO	赋值不能超过 60000
+	//timestamp	LONG	YES
+	params := url.Values{}
+	params.Set("symbol", currency.ToSymbol(""))
+	params.Set("timestamp", strconv.Itoa(int(time.Now().Unix())))
+
+	err := bn.buildParamsSigned(&params)
+	if err != nil {
+		return nil, err
+	}
+	path := bn.apiV3 + "myTrades?" + params.Encode()
+	resp, err := HttpGet3(bn.httpClient, path, map[string]string{"X-MBX-APIKEY": bn.accessKey})
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(resp)
+	return resp, nil
 }
 
 func (bn *Binance) GetTradeSymbols(currencyPair CurrencyPair) (*TradeSymbol, error) {
